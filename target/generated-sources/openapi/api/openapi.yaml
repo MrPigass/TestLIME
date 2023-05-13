@@ -1,0 +1,245 @@
+openapi: 3.0.3
+info:
+  description: API
+  title: API
+  version: 1.0.0
+servers:
+- description: Local server
+  url: http://localhost:9090/api
+paths:
+  /categories:
+    get:
+      operationId: getCategories
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Categories'
+                type: array
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get all categories
+      tags:
+      - categories
+      x-accepts: application/json
+  /categories/{id}:
+    get:
+      operationId: getCategoriesById
+      parameters:
+      - description: Categorie id
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: int
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get categorie by id
+      tags:
+      - categories
+      x-accepts: application/json
+  /lots/{id}:
+    get:
+      operationId: getLotById
+      parameters:
+      - description: Lot id
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: int
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lot'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Get lot by id
+      tags:
+      - lots
+      x-accepts: application/json
+  /connexion:
+    post:
+      operationId: createConnexion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Connexion'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connexion'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Create connexion
+      tags:
+      - connexion
+      x-content-type: application/json
+      x-accepts: application/json
+  /deconnexion:
+    post:
+      operationId: createDeconnexion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deconnexion'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deconnexion'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+      summary: Create deconnexion
+      tags:
+      - deconnexion
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    Categories:
+      example:
+        a_idCategories: 6
+        catNom: catNom
+        idCategories: 0
+      properties:
+        idCategories:
+          format: int32
+          type: integer
+        catNom:
+          type: string
+        a_idCategories:
+          format: int32
+          type: integer
+      type: object
+    Lot:
+      example:
+        price: 6.027456183070403
+        name: name
+        description: description
+        id: 0
+        category:
+          a_idCategories: 6
+          catNom: catNom
+          idCategories: 0
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          format: double
+          type: number
+        category:
+          $ref: '#/components/schemas/Categories'
+      type: object
+    Error:
+      properties:
+        code:
+          format: int32
+          type: integer
+        message:
+          type: string
+      type: object
+    Connexion:
+      example:
+        password: password
+        id: 0
+        login: login
+      properties:
+        id:
+          format: int32
+          type: integer
+        login:
+          type: string
+        password:
+          type: string
+      type: object
+    Deconnexion:
+      example:
+        password: password
+        id: 0
+        login: login
+      properties:
+        id:
+          format: int32
+          type: integer
+        login:
+          type: string
+        password:
+          type: string
+      type: object
+

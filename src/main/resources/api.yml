@@ -1,0 +1,217 @@
+openapi: '3.0.3'
+info:
+  title: 'API'
+  description: 'API'
+  version: '1.0.0'
+servers:
+  - url: 'http://localhost:9090/api'
+    description: 'Local server'
+paths:
+
+  /categories:
+    get:
+      summary: 'Get all categories'
+      operationId: 'getCategories'
+      tags:
+        - 'categories'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categories'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /categories/{id}:
+    get:
+      summary: 'Get categorie by id'
+      operationId: 'getCategoriesById'
+      tags:
+        - 'categories'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'Categorie id'
+          required: true
+          schema:
+            type: int
+            format: int32
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /lots/{id}:
+    get:
+      summary: 'Get lot by id'
+      operationId: 'getLotById'
+      tags:
+        - 'lots'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'Lot id'
+          required: true
+          schema:
+            type: int
+            format: int32
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lot'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /connexion:
+    post:
+      summary: 'Create connexion'
+      operationId: 'createConnexion'
+      tags:
+        - 'connexion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Connexion'
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connexion'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /deconnexion:
+    post:
+      summary: 'Create deconnexion'
+      operationId: 'createDeconnexion'
+      tags:
+        - 'deconnexion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deconnexion'
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deconnexion'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Categories:
+      type: object
+      properties:
+        idCategories:
+          type: integer
+          format: int32
+        catNom:
+          type: string
+        a_idCategories:
+          type: integer
+          format: int32
+
+    Lot:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+        category:
+          $ref: '#/components/schemas/Categories'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Connexion:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        login:
+          type: string
+        password:
+          type: string
+    Deconnexion:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int32
+          login:
+            type: string
+          password:
+            type: string
+
