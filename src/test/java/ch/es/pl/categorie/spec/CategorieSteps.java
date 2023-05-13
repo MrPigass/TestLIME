@@ -7,6 +7,7 @@ import org.openapitools.client.api.CategorieEndPointApi;
 public class CategorieSteps {
 
     private final CategorieEndPointApi api = new CategorieEndPointApi();
+
     private Categorie categorie;
     private int statusCode;
 
